@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game</title>
+    <title>Pong Game with Score</title>
     <style>
         canvas {
             display: block;
@@ -27,6 +27,10 @@
         const ballSize = 10;
         let ball = { x: canvas.width / 2, y: canvas.height / 2, dx: 5, dy: 5 };
 
+        // Punkte
+        let leftPlayerScore = 0;
+        let rightPlayerScore = 0;
+
         // Funktion zum Zeichnen des Schlägers
         function drawPaddle(x, y) {
             ctx.fillStyle = '#ffffff';
@@ -42,6 +46,13 @@
             ctx.closePath();
         }
 
+        // Funktion zum Zeichnen der Punkte
+        function drawScore() {
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '30px Arial';
+            ctx.fillText(leftPlayerScore + ' - ' + rightPlayerScore, canvas.width / 2 - 30, 50);
+        }
+
         // Funktion zum Zeichnen des Spielfelds
         function draw() {
             // Hintergrund
@@ -54,6 +65,9 @@
 
             // Zeichne Ball
             drawBall(ball.x, ball.y);
+
+            // Zeichne Punkte
+            drawScore();
         }
 
         // Funktion zum Aktualisieren der Spiellogik
@@ -79,6 +93,15 @@
                 ball.dx = -ball.dx;
             }
 
+            // Punkte zählen
+            if (ball.x - ballSize < 0) {
+                rightPlayerScore++;
+                resetGame();
+            } else if (ball.x + ballSize > canvas.width) {
+                leftPlayerScore++;
+                resetGame();
+            }
+
             // Bewege die rechte Seite des Schlägers mit dem Ball
             if (ball.dx > 0 && ball.x > canvas.width / 2) {
                 rightPaddle.y = ball.y - paddleHeight / 2;
@@ -87,6 +110,13 @@
             // Begrenze die Schläger-Bewegung innerhalb des Canvas
             leftPaddle.y = Math.max(0, Math.min(leftPaddle.y + leftPaddle.dy, canvas.height - paddleHeight));
             rightPaddle.y = Math.max(0, Math.min(rightPaddle.y + rightPaddle.dy, canvas.height - paddleHeight));
+        }
+
+        // Funktion zum Zurücksetzen des Spiels
+        function resetGame() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = -ball.dx;
         }
 
         // Funktion zur Spielanimation
@@ -132,4 +162,5 @@
     </script>
 </body>
 </html>
+
 
