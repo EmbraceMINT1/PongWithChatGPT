@@ -72,6 +72,12 @@
 
         // Funktion zum Aktualisieren der Spiellogik
         function update() {
+            // Beende das Spiel, wenn ein Spieler 20 Punkte erreicht hat
+            if (leftPlayerScore === 20 || rightPlayerScore === 20) {
+                displayGameOver();
+                return;
+            }
+
             // Bewege den Ball
             ball.x += ball.dx;
             ball.y += ball.dy;
@@ -113,6 +119,13 @@
             ball.y = canvas.height / 2;
             ball.dx = -ball.dx; // Ändere die Richtung des Balls
             ball.dy = -ball.dy;
+        }
+
+        // Funktion zur Anzeige des Spielendes
+        function displayGameOver() {
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '40px Arial';
+            ctx.fillText('Game Over!', canvas.width / 2 - 120, canvas.height / 2);
         }
 
         // Funktion zur Spielanimation
