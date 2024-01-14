@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pong Game with Score</title>
+    <title>Pong Game with Two Players</title>
     <style>
         canvas {
             display: block;
@@ -102,14 +102,9 @@
                 resetGame();
             }
 
-            // Bewege die rechte Seite des Schlägers mit dem Ball
-            if (ball.dx > 0 && ball.x > canvas.width / 2) {
-                rightPaddle.y = ball.y - paddleHeight / 2;
-            }
-
-            // Begrenze die Schläger-Bewegung innerhalb des Canvas
-            leftPaddle.y = Math.max(0, Math.min(leftPaddle.y + leftPaddle.dy, canvas.height - paddleHeight));
+            // Bewege die rechten und linken Schläger
             rightPaddle.y = Math.max(0, Math.min(rightPaddle.y + rightPaddle.dy, canvas.height - paddleHeight));
+            leftPaddle.y = Math.max(0, Math.min(leftPaddle.y + leftPaddle.dy, canvas.height - paddleHeight));
         }
 
         // Funktion zum Zurücksetzen des Spiels
@@ -117,6 +112,7 @@
             ball.x = canvas.width / 2;
             ball.y = canvas.height / 2;
             ball.dx = -ball.dx;
+            ball.dy = -ball.dy;
         }
 
         // Funktion zur Spielanimation
@@ -126,15 +122,9 @@
             requestAnimationFrame(animate);
         }
 
-        // Steuerung
+        // Steuerung für Spieler 1 (W und S Tasten)
         window.addEventListener('keydown', function (event) {
             switch (event.key) {
-                case 'ArrowUp':
-                    rightPaddle.dy = -5;
-                    break;
-                case 'ArrowDown':
-                    rightPaddle.dy = 5;
-                    break;
                 case 'w':
                     leftPaddle.dy = -5;
                     break;
@@ -146,13 +136,30 @@
 
         window.addEventListener('keyup', function (event) {
             switch (event.key) {
-                case 'ArrowUp':
-                case 'ArrowDown':
-                    rightPaddle.dy = 0;
-                    break;
                 case 'w':
                 case 's':
                     leftPaddle.dy = 0;
+                    break;
+            }
+        });
+
+        // Steuerung für Spieler 2 (Pfeiltasten)
+        window.addEventListener('keydown', function (event) {
+            switch (event.key) {
+                case 'ArrowUp':
+                    rightPaddle.dy = -5;
+                    break;
+                case 'ArrowDown':
+                    rightPaddle.dy = 5;
+                    break;
+            }
+        });
+
+        window.addEventListener('keyup', function (event) {
+            switch (event.key) {
+                case 'ArrowUp':
+                case 'ArrowDown':
+                    rightPaddle.dy = 0;
                     break;
             }
         });
@@ -162,5 +169,6 @@
     </script>
 </body>
 </html>
+
 
 
